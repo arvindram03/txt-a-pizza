@@ -8,7 +8,6 @@ from pymongo import MongoClient
 client = MongoClient('0.0.0.0', 27017)
 db = client['txt-a-pizza']
 
-
 app = Flask(__name__)
 
 access_token = 'UNGBIDQ7ZXEIB5IMPVI37UVPUQ773OQH'
@@ -18,6 +17,7 @@ PENDING_APPR = "PENDING_APPR"
 PENDING_LOC = "PENDING_LOC"
 ORDER_MADE = "CONFIRMED"
 ORDER_CANCELLED = "CANCELLED"
+
 def get_order(user):
 	return db.orders.find_one({'_id':user})
 
@@ -181,6 +181,10 @@ def do(action_items, user, zipcode):
 		return handle_confirmation(action_items, user)
 			
  
+@app.route("/", methods=['GET', 'POST'])
+def home():
+	return "I am up and running :)" 
+	
 @app.route("/pizza", methods=['GET', 'POST'])
 def receive_sms():
 	user = request.form['From']
